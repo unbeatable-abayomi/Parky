@@ -47,7 +47,7 @@ namespace ParkyAPI.Controllers
 			var obj = _npRepo.GetNationalPark(nationalParkId);
 			if(obj == null)
 			{
-				
+				return NotFound();
 			}
 			var objDto = _mapper.Map<NationalParkDto>(obj);
 
