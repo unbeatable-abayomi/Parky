@@ -29,7 +29,8 @@ namespace ParkyAPI.Controllers
 		/// </summary>
 		/// <returns></returns>
 		[HttpGet]
-
+		[ProducesResponseType(200,Type =typeof(List<NationalParkDto>))]
+		[ProducesResponseType(400)]
 		public IActionResult GetNationalParks()
 		{
 			var objList = _npRepo.GetNationalParks();
@@ -48,6 +49,10 @@ namespace ParkyAPI.Controllers
 		/// <returns></returns>
 
 		[HttpGet("{nationalParkId:int}",Name = "GetNationalPark")]
+		[ProducesResponseType(200, Type = typeof(NationalParkDto))]
+		[ProducesResponseType(400)]
+		[ProducesResponseType(404)]
+		[ProducesDefaultResponseType]
 
 		public IActionResult GetNationalPark(int nationalParkId)
 		{
@@ -62,6 +67,11 @@ namespace ParkyAPI.Controllers
 		}
 
 		[HttpPost]
+		[ProducesResponseType(201, Type = typeof(NationalParkDto))]
+		[ProducesResponseType(StatusCodes.Status201Created)]
+		[ProducesResponseType(404)]
+		[ProducesResponseType(500)]
+		
 
 		public IActionResult CreateNationalPark([FromBody] NationalParkDto nationalParkDto)
 		{
