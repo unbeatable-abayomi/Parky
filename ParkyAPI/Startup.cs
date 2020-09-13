@@ -16,6 +16,8 @@ using ParkyAPI.Repository;
 using ParkyAPI.Repository.IRepository;
 using AutoMapper;
 using ParkyAPI.ParkyMapper;
+using System.IO;
+using System.Reflection;
 
 namespace ParkyAPI
 {
@@ -41,9 +43,25 @@ namespace ParkyAPI
 					{
 
 						Title = "Parky API",
-						Version = "1"
+						Version = "1",
+						Description = "Abayomi's Parky API",
+						Contact = new Microsoft.OpenApi.Models.OpenApiContact()
+						{
+							Email = "igwubor@gmail.com",
+							Name = "Abayomi Igwubor",
+							Url=  new Uri("https://abayomiigwubor.netlify.com/")
+						},
+						License = new Microsoft.OpenApi.Models.OpenApiLicense()
+						{
+							Name = "MIT License",
+							Url= new Uri("https://en.wikipedia.org/wiki/MIT_License")
+						
+						}
 
 					});
+				var xmlCommentFile = $"{Assembly.GetExecutingAssembly().GetName().Name }.xml";
+				var cmlCommentsFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentFile);
+				options.IncludeXmlComments(cmlCommentsFullPath);
 
 			});
 			services.AddControllers();
@@ -59,7 +77,11 @@ namespace ParkyAPI
 
 			app.UseHttpsRedirection();
 			app.UseSwagger();
-
+			app.UseSwaggerUI(options => {
+				options.SwaggerEndpoint("/swagger/ParkyOpenAPISpec/swagger.json", "Parky API");
+				options.RoutePrefix = "";
+			
+			});
 			app.UseRouting();
 
 			app.UseAuthorization();
