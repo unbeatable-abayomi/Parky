@@ -30,7 +30,7 @@ namespace ParkyAPI.Controllers
 		/// </summary>
 		/// <returns></returns>
 		[HttpGet]
-		[ProducesResponseType(200,Type =typeof(List<NationalParkDto>))]
+			
 		//[ProducesResponseType(400)]
 		public IActionResult GetNationalParks()
 		{
