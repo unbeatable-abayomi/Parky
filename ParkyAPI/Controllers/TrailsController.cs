@@ -15,7 +15,8 @@ using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace ParkyAPI.Controllers
 {
-	[Route("api/Trails")]
+	//[Route("api/Trails")]
+	[Route("api/v{version:apiVersion}/trails")]
 	[ApiController]
 	//[ApiExplorerSettings(GroupName = "ParkyOpenAPISpecTrails")]
 	[ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -81,6 +82,42 @@ namespace ParkyAPI.Controllers
 
 			return Ok(objDto);
 		}
+
+
+
+		[HttpGet("[action]/{nationalParkId:int}")]
+		[ProducesResponseType(200, Type = typeof(TrailDto))]
+		//[ProducesResponseType(400)]
+		[ProducesResponseType(404)]
+		[ProducesDefaultResponseType]
+
+		public IActionResult GetTrailInNationalPark(int nationalParkId)
+		{
+			var objList = _trailRepo.GetTrailsInNationalPark(nationalParkId);
+			if (objList == null)
+			{
+				return NotFound();
+			}
+			var objDto = new List<TrailDto>();
+			foreach(var obj in objList)
+			{
+				objDto.Add(_mapper.Map<TrailDto>(obj));
+			}
+
+			return Ok(objDto);
+
+			//WITH OUT AUTO MAPPER THIS IS THE CODE U'LL WRITE BELOW
+			//var objDto = new TrailDto()
+			//{
+			//	Created = obj.Created,
+			//	Id = obj.Id,
+			//	Name = obj.Name,
+			//	State = obj.State
+			//};
+
+
+		}
+
 
 		[HttpPost]
 		[ProducesResponseType(201, Type = typeof(TrailDto))]
