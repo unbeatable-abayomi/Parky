@@ -39,6 +39,16 @@ namespace ParkyAPI.Repository
 		{
 			return _db.Trails.Include(a => a.NationalPark).OrderBy(a => a.Name).ToList();
 		}
+		public bool UpdateTrail(Trail trail)
+		{
+			_db.Trails.Update(trail);
+			return Save();
+		}
+
+		public ICollection<Trail> GetTrailsInNationalPark(int npId)
+		{
+			return _db.Trails.Include(c => c.NationalPark).Where(c => c.NationalParkId == npId).ToList();
+		}
 
 		public bool TrailExists(string name)
 		{
@@ -56,15 +66,6 @@ namespace ParkyAPI.Repository
 			return _db.SaveChanges() >= 0 ? true : false;
 		}
 
-		public bool UpdateTrail(Trail trail)
-		{
-			_db.Trails.Update(trail);
-			return Save();
-		}
-
-		public ICollection<Trail> GetTrailsInNationalPark(int npId)
-		{
-			return _db.Trails.Include(c => c.NationalPark).Where(c => c.NationalParkId == npId).ToList();
-		}
+	
 	}
 }
